@@ -181,7 +181,7 @@ public:
 	}
 };
 
-class Graduate :public Human, public Student
+class Graduate :Human, Student
 {
 	std::string graduate_work;
 	double average_rating;
