@@ -1,5 +1,6 @@
 #include<iostream>
 using namespace std;
+#define delimiter "\n__________________________________________________________________\n"
 
 class Human
 {
@@ -47,7 +48,7 @@ public:
 
 	void print()const
 	{
-		cout << last_name << " " << first_name << " " << age << endl;
+		cout << "Last name: " << last_name << "\t" << "First name: " << first_name << "\t" << "Age: " << age << "years old" << endl;
 	}
 };
 
@@ -112,7 +113,116 @@ public:
 	void print()const
 	{
 		Human::print();
-		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
+		cout << "Speciality: " << speciality << "\t" << "Group: " << group << "\t" << "Rating: " << rating << "\t" << "Attendance: " << attendance << endl;
+	}
+
+};
+
+class Teacher :Human
+{
+	std::string speciality;
+	std::string degree;
+	std::string loyalty;
+	double experience;
+public:
+	const std::string& get_speciality()const
+	{
+		return speciality;
+	}
+	const std::string get_degree()const
+	{
+		return degree;
+	}
+	const std::string get_loyalty()const
+	{
+		return loyalty;
+	}
+	double get_experience()const
+	{
+		return experience;
+	}
+	void set_speciality(const std::string& speciality)
+	{
+		this->speciality = speciality;
+	}
+	void set_degree(const std::string& degree)
+	{
+		this->degree = degree;
+	}
+	void set_loyalty(const std::string& loyalty)
+	{
+		this->loyalty = loyalty;
+	}
+	void set_experience(double experience)
+	{
+		this->experience = experience;
+	}
+	//		Constructor:
+	Teacher
+	(
+		const std::string& last_name, const std::string& first_name, int age,
+		const std::string& speciality, const std::string& degree, const std::string& loyalty, double experience
+	) :Human(last_name, first_name, age)
+	{
+		set_speciality(speciality);
+		set_degree(degree);
+		set_loyalty(loyalty);
+		set_experience(experience);
+		cout << "TConstructor:\t" << this << endl;
+	}
+	~Teacher()
+	{
+		cout << "TDestructor:\t" << this << endl;
+	}
+	void print()
+	{
+		Human::print();
+		cout << "speciality: " << speciality << "\t" << "degree: " << degree << "\t" << "loyalty: " << loyalty << "\t" << "experience: " << experience << " years" << endl;
+	}
+};
+
+class Graduate :public Human, public Student
+{
+	std::string graduate_work;
+	double average_rating;
+public:
+	const std::string& get_graduate_work()const
+	{
+		return graduate_work;
+	}
+	double get_average_rating()const
+	{
+		return average_rating;
+	}
+	void set_graduate_work(const std::string& graduate_work)
+	{
+		this->graduate_work = graduate_work;
+	}
+	void set_average_rating(double average_rating)
+	{
+		this->average_rating = average_rating;
+	}
+	//		Constructor:
+	Graduate
+	(
+		const std::string& last_name, const std::string& first_name, int age,
+		const std::string& speciality, const std::string& group, double rating, double attendance,
+		const std::string& graduate_work, double average_rating
+	) : Human(last_name, first_name,age), Student(last_name, first_name, age, speciality,group,rating,attendance) //Student(speciality, group, rating, attendance)
+	{
+		set_graduate_work(graduate_work);
+		set_average_rating(average_rating);
+		cout << "GDestructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestructor:\t" << this << endl;
+	}
+	void print()const
+	{
+		//Human::print();
+		Student::print();
+		cout << "Graduate work: " << graduate_work << "\t" << "Average rating: " << average_rating << endl;
 	}
 };
 
@@ -121,7 +231,14 @@ void main()
 	setlocale(LC_ALL, "");
 	Human human("Montana", "Antonio", 30);
 	human.print();
-
+	cout << delimiter << endl;
 	Student stud("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 95, 98);
 	stud.print();
+	cout << delimiter << endl;
+	Teacher teacher("Jones", "John", 48, "Physicist", "PhD", "strict", 20);
+	teacher.print();
+	cout << delimiter << endl;
+	Graduate graduate("Clinton", "Bill", 26, "Biology", "DP_223", 85, 70, "Life in ocean", 3.5);
+	graduate.print();
+	cout << delimiter << endl;
 }
