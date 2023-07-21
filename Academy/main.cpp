@@ -41,16 +41,21 @@ public:
 		set_age(age);
 		cout << "HConstructor;\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor;\t" << this << endl;
 	}
 
-	void print()const
+	virtual void print()const
 	{
 		cout << "Last name: " << last_name << "\t" << "First name: " << first_name << "\t" << "Age: " << age << "years old" << endl;
 	}
 };
+
+ std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << endl;
+}
 
 class Student :public Human
 {
@@ -115,29 +120,22 @@ public:
 		Human::print();
 		cout << "Speciality: " << speciality << "\t" << "Group: " << group << "\t" << "Rating: " << rating << "\t" << "Attendance: " << attendance << endl;
 	}
-
 };
+std::ostream& operator<<(std::ostream& os, const Student& obj)
+{
+	return os << obj.get_speciality() << " " << obj.get_group() << " " << obj.get_rating() << " " << obj.get_attendance() << endl;
+}
 
-class Teacher :Human
+class Teacher :public Human
 {
 	std::string speciality;
-	std::string degree;
-	std::string loyalty;
-	double experience;
+	int experience;
 public:
 	const std::string& get_speciality()const
 	{
 		return speciality;
 	}
-	const std::string get_degree()const
-	{
-		return degree;
-	}
-	const std::string get_loyalty()const
-	{
-		return loyalty;
-	}
-	double get_experience()const
+	int get_experience()const
 	{
 		return experience;
 	}
@@ -145,28 +143,17 @@ public:
 	{
 		this->speciality = speciality;
 	}
-	void set_degree(const std::string& degree)
-	{
-		this->degree = degree;
-	}
-	void set_loyalty(const std::string& loyalty)
-	{
-		this->loyalty = loyalty;
-	}
-	void set_experience(double experience)
+	void set_experience(int experience)
 	{
 		this->experience = experience;
 	}
-	//		Constructor:
 	Teacher
 	(
 		const std::string& last_name, const std::string& first_name, int age,
-		const std::string& speciality, const std::string& degree, const std::string& loyalty, double experience
+		const std::string& speciality, int experience
 	) :Human(last_name, first_name, age)
 	{
 		set_speciality(speciality);
-		set_degree(degree);
-		set_loyalty(loyalty);
 		set_experience(experience);
 		cout << "TConstructor:\t" << this << endl;
 	}
@@ -174,71 +161,83 @@ public:
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
-	void print()
+	void print()const
 	{
 		Human::print();
-		cout << "speciality: " << speciality << "\t" << "degree: " << degree << "\t" << "loyalty: " << loyalty << "\t" << "experience: " << experience << " years" << endl;
+		cout << speciality << " " << experience << endl;
 	}
 };
 
-class Graduate :Human, Student
+class Graduate :public Student
 {
-	std::string graduate_work;
-	double average_rating;
+	std::string subject;
 public:
-	const std::string& get_graduate_work()const
+	const std::string& get_subject()const
 	{
-		return graduate_work;
+		return subject;
 	}
-	double get_average_rating()const
+	void set_subject(const std::string& subject)
 	{
-		return average_rating;
+		this->subject = subject;
 	}
-	void set_graduate_work(const std::string& graduate_work)
-	{
-		this->graduate_work = graduate_work;
-	}
-	void set_average_rating(double average_rating)
-	{
-		this->average_rating = average_rating;
-	}
-	//		Constructor:
 	Graduate
 	(
 		const std::string& last_name, const std::string& first_name, int age,
 		const std::string& speciality, const std::string& group, double rating, double attendance,
-		const std::string& graduate_work, double average_rating
-	) : Human(last_name, first_name,age), Student(last_name, first_name, age, speciality,group,rating,attendance) //Student(speciality, group, rating, attendance)
+		const std::string& subject
+	) :Student(last_name, first_name, age, speciality, group, rating, attendance)
 	{
-		set_graduate_work(graduate_work);
-		set_average_rating(average_rating);
-		cout << "GDestructor:\t" << this << endl;
+		set_subject(subject);
+		cout << "GConstructor:\t" << this << endl;
 	}
 	~Graduate()
 	{
-		cout << "GDestructor:\t" << this << endl;
+		cout << "GDenstructor:\t" << this << endl;
 	}
 	void print()const
 	{
-		//Human::print();
 		Student::print();
-		cout << "Graduate work: " << graduate_work << "\t" << "Average rating: " << average_rating << endl;
+		cout << subject << endl;
 	}
 };
 
+//#define INHERITANCE
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef INHERITANCE
 	Human human("Montana", "Antonio", 30);
 	human.print();
 	cout << delimiter << endl;
 	Student stud("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 95, 98);
 	stud.print();
 	cout << delimiter << endl;
-	Teacher teacher("Jones", "John", 48, "Physicist", "PhD", "strict", 20);
+	Teacher teacher("White", "Walter", 50, "Chemistry", 20);
 	teacher.print();
 	cout << delimiter << endl;
-	Graduate graduate("Clinton", "Bill", 26, "Biology", "DP_223", 85, 70, "Life in ocean", 3.5);
-	graduate.print();
+	Graduate grad("Schrader", "Hank", 40, "Criminalistic", "OBN", 50, 50, "How to catch Heisenberg");
+	grad.print();
 	cout << delimiter << endl;
+#endif // inheritance
+
+
+	Human* group[] =
+	{
+	new Student("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 95, 98),
+	new Teacher("White", "Walter", 50, "Chemistry", 20),
+	new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 50, 50, "How to catch Heisenberg")
+	};
+
+	cout << "\n---------------------------------------------\n" << endl;
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		/*cout << typeid(*group[i]).name() << ":\n";
+		group[i]->print();*/
+		cout << *group[i] << endl;
+		cout << "\n---------------------------------------------\n" << endl;
+	}
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
 }
