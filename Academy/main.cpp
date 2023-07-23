@@ -46,15 +46,19 @@ public:
 		cout << "HDestructor;\t" << this << endl;
 	}
 
-	virtual void print()const
+	virtual std::ostream& print(std::ostream& os)const
 	{
-		cout << "Last name: " << last_name << "\t" << "First name: " << first_name << "\t" << "Age: " << age << "years old" << endl;
+		return os << "Last name: " << last_name << "\t" << "First name: " << first_name << "\t" << "Age: " << age << "years old";
 	}
 };
 
- std::ostream& operator<<(std::ostream& os, const Human& obj)
+ /*std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << endl;
+}*/
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return obj.print(os);
 }
 
 class Student :public Human
@@ -115,16 +119,16 @@ public:
 	{
 		cout << "SDestructor:\t" << this << endl;
 	}
-	void print()const
+	std::ostream& print(std::ostream& os)const
 	{
-		Human::print();
-		cout << "Speciality: " << speciality << "\t" << "Group: " << group << "\t" << "Rating: " << rating << "\t" << "Attendance: " << attendance << endl;
+		Human::print(os);
+		return os << "Speciality: " << speciality << "\t" << "Group: " << group << "\t" << "Rating: " << rating << "\t" << "Attendance: " << attendance;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Student& obj)
-{
-	return os << obj.get_speciality() << " " << obj.get_group() << " " << obj.get_rating() << " " << obj.get_attendance() << endl;
-}
+//std::ostream& operator<<(std::ostream& os, const Student& obj)
+//{
+//	return os << obj.get_speciality() << " " << obj.get_group() << " " << obj.get_rating() << " " << obj.get_attendance() << endl;
+//}
 
 class Teacher :public Human
 {
@@ -161,10 +165,10 @@ public:
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
-	void print()const
+	std::ostream& print(std::ostream& os)const
 	{
-		Human::print();
-		cout << speciality << " " << experience << endl;
+		Human::print(os);
+		return os << speciality << " " << experience;
 	}
 };
 
@@ -194,10 +198,10 @@ public:
 	{
 		cout << "GDenstructor:\t" << this << endl;
 	}
-	void print()const
+	std::ostream& print(std::ostream& os)const
 	{
-		Student::print();
-		cout << subject << endl;
+		Student::print(os);
+		return os << subject;
 	}
 };
 
@@ -233,6 +237,7 @@ void main()
 	{
 		/*cout << typeid(*group[i]).name() << ":\n";
 		group[i]->print();*/
+		//cout << *group[i] << endl;
 		cout << *group[i] << endl;
 		cout << "\n---------------------------------------------\n" << endl;
 	}
