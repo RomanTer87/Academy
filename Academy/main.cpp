@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<string>
 using namespace std;
 #define delimiter "\n__________________________________________________________________\n"
 
@@ -60,6 +61,7 @@ public:
 	}
 	virtual std::ofstream& print(std::ofstream& ofs)const
 	{
+		ofs << typeid(*this).name() << ":\t";
 		ofs.width(LAST_NAME_WIDTH);
 		ofs << std::left;
 		ofs << last_name;
@@ -258,6 +260,12 @@ public:
 		Student::print(os);
 		return os << subject;
 	}
+	std::ofstream& print(std::ofstream& ofs)const
+	{
+		Student::print(ofs);
+		ofs << subject;
+		return ofs;
+	}
 };
 
 void print(Human** group, const int n)
@@ -283,7 +291,50 @@ void save(Human** group, const int size, const char filename[])
 	system(command.c_str());
 }
 
+Human* HumanFactory(const std::string& type)
+{
+	if (type.find("Teacher") != std::string::npos) return new Teacher("", "", 0, "", 0);
+	if (type.find("Student") != std::string::npos) return new Student("", "", 0, "", "", 0, 0);
+	if (type.find("Graduate") != std::string::npos) return new Graduate("", "", 0, "", "", 0, 0, "");
+}
+
+Human** load(const std::string& filename, int& n)
+{
+	Human** group = nullptr;
+	std::ifstream fin(filename);
+	if (fin.is_open())
+	{
+		// 1) опрелеляем размер массива
+		for (n = 0; !fin.eof(); n++)
+		{
+			std::string buffer;
+			std::getline(fin, buffer);
+		}
+		// 2) выделяем память под массив
+		group = new Human * [--n] {};
+		//3) Возвращаемся в начало файла
+		fin.clear();
+		fin.seekg(0);
+		// 4) Создаем и читаем объекты
+		for (int i = 0; !fin.eof(); i++)
+		{
+			std::string type;
+			std::getline(fin, type, ':');
+			fin.ignore();
+			group[i] = HumanFactory(type);
+			fin >> *group[i];
+		}
+			fin.close();
+	}
+	else
+	{
+		std::cerr << "Error: file not found" << endl;
+	}
+	return group;
+}
+
 //#define INHERITANCE
+#define STORE_TO_FILE
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -303,6 +354,7 @@ void main()
 #endif // inheritance
 
 
+#ifdef STORE_TO_FILE
 	Human* group[] =
 	{
 	new Student("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 95, 98),
@@ -310,20 +362,24 @@ void main()
 	new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 50, 50, "How to catch Heisenberg")
 	};
 
-	//cout << "\n---------------------------------------------\n" << endl;
-	//for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
-	//{
-	//	/*cout << typeid(*group[i]).name() << ":\n";
-	//	group[i]->print();*/
-	//	//cout << *group[i] << endl;
-	//	cout << *group[i] << endl;
-	//	cout << "\n---------------------------------------------\n" << endl;
-	//}
-	//for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
-	//{
-	//	delete group[i];
-	//}
+	cout << "\n---------------------------------------------\n" << endl;
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		/*cout << typeid(*group[i]).name() << ":\n";
+		group[i]->print();*/
+		//cout << *group[i] << endl;
+		cout << *group[i] << endl;
+		cout << "\n---------------------------------------------\n" << endl;
+	}
+
 	print(group, sizeof(group) / sizeof(group[0]));
 	save(group, sizeof(group) / sizeof(group[0]), "group.txt");
+#endif // STORE_TO_FILE
+
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
 
 }

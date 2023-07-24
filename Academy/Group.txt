@@ -1,3 +1,3 @@
-Pinkman     Jessie      25   Chemistry             WW_220 95      98      
-White       Walter      50   
-Schrader    Hank        40   Criminalistic         OBN    50      50      
+class Student:	Pinkman     Jessie      25   Chemistry             WW_220 95      98      
+class Teacher:	White       Walter      50   
+class Graduate:	Schrader    Hank        40   Criminalistic         OBN    50      50      How to catch Heisenberg
