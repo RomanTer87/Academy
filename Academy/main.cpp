@@ -57,7 +57,7 @@ public:
 
 	virtual std::ostream& print(std::ostream& os)const
 	{
-		return os << "Last name: " << last_name << "\t" << "First name: " << first_name << "\t" << "Age: " << age << "years old";
+		return os << last_name << "\t" << first_name << "\t" << age;
 	}
 	virtual std::ofstream& print(std::ofstream& ofs)const
 	{
@@ -71,6 +71,11 @@ public:
 		ofs.width(AGE_WIDTH);
 		ofs << age;
 		return ofs;
+	}
+	virtual std::ifstream& scan(std::ifstream& ifs)
+	{
+		ifs >> last_name >> first_name >> age;
+		return ifs;
 	}
 };
 
@@ -88,6 +93,10 @@ std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
 {
 	obj.print(ofs);
 	return ofs;
+}std::ifstream& operator>>(std::ifstream& ifs, Human& obj)
+{
+	//obj.scan(ifs);
+	return ifs;
 }
 
 class Student :public Human
@@ -155,7 +164,7 @@ public:
 	std::ostream& print(std::ostream& os)const
 	{
 		Human::print(os);
-		return os << "Speciality: " << speciality << "\t" << "Group: " << group << "\t" << "Rating: " << rating << "\t" << "Attendance: " << attendance;
+		return os << speciality << "\t" << group << "\t" << rating << "\t" << attendance;
 	}
 	std::ofstream& print(std::ofstream& ofs) const
 	{
@@ -169,6 +178,15 @@ public:
 		ofs.width(ATTENDANCE_WIDTH);
 		ofs << attendance;
 		return ofs;
+	}
+	std::ifstream& scan(std::ifstream& ifs)
+	{
+		Human::scan(ifs);
+		char sz_speciality[SPECIALITY_WIDTH + 1] = {};
+		ifs.read(sz_speciality, SPECIALITY_WIDTH);
+		this->speciality = sz_speciality;
+		ifs >> group >> rating >> attendance;
+		return ifs;
 	}
 };
 //std::ostream& operator<<(std::ostream& os, const Student& obj)
@@ -227,6 +245,15 @@ public:
 		ofs << experience;
 		return ofs;
 	}
+	std::ifstream& scan(std::ifstream& ifs)
+	{
+		Human::scan(ifs);
+		char sz_speciality[SPECIALITY_WIDTH + 1] = {};
+		ifs.read(sz_speciality, SPECIALITY_WIDTH);
+		this->speciality = sz_speciality;
+		ifs >> experience;
+		return ifs;
+	}
 };
 
 class Graduate :public Student
@@ -265,6 +292,12 @@ public:
 		Student::print(ofs);
 		ofs << subject;
 		return ofs;
+	}
+	std::ifstream& scan(std::ifstream& ifs)
+	{
+		Student::scan(ifs);
+		std::getline(ifs, subject);
+		return ifs;
 	}
 };
 
@@ -316,7 +349,7 @@ Human** load(const std::string& filename, int& n)
 		fin.clear();
 		fin.seekg(0);
 		// 4) Создаем и читаем объекты
-		for (int i = 0; !fin.eof(); i++)
+		for (int i = 0; i<n; i++)
 		{
 			std::string type;
 			std::getline(fin, type, ':');
@@ -324,7 +357,7 @@ Human** load(const std::string& filename, int& n)
 			group[i] = HumanFactory(type);
 			fin >> *group[i];
 		}
-			fin.close();
+		fin.close();
 	}
 	else
 	{
@@ -334,7 +367,7 @@ Human** load(const std::string& filename, int& n)
 }
 
 //#define INHERITANCE
-#define STORE_TO_FILE
+//#define STORE_TO_FILE
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -362,24 +395,26 @@ void main()
 	new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 50, 50, "How to catch Heisenberg")
 	};
 
-	cout << "\n---------------------------------------------\n" << endl;
-	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
-	{
-		/*cout << typeid(*group[i]).name() << ":\n";
-		group[i]->print();*/
-		//cout << *group[i] << endl;
-		cout << *group[i] << endl;
-		cout << "\n---------------------------------------------\n" << endl;
-	}
+	//cout << "\n---------------------------------------------\n" << endl;
+	//for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	//{
+	//	/*cout << typeid(*group[i]).name() << ":\n";
+	//	group[i]->print();*/
+	//	//cout << *group[i] << endl;
+	//	cout << *group[i] << endl;
+	//	cout << "\n---------------------------------------------\n" << endl;
+	//}
 
 	print(group, sizeof(group) / sizeof(group[0]));
 	save(group, sizeof(group) / sizeof(group[0]), "group.txt");
 #endif // STORE_TO_FILE
 
+	int n = 0;
+	Human** group = load("group.txt", n);
+	print(group, n);
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];
 	}
-
 }
