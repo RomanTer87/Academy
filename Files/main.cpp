@@ -1,5 +1,5 @@
-#include<iostream>
-#include<fstream> // В самую первую очередь подключаем файловую библиотеку
+п»ї#include<iostream>
+#include<fstream> // Р’ СЃР°РјСѓСЋ РїРµСЂРІСѓСЋ РѕС‡РµСЂРµРґСЊ РїРѕРґРєР»СЋС‡Р°РµРј С„Р°Р№Р»РѕРІСѓСЋ Р±РёР±Р»РёРѕС‚РµРєСѓ
 using std::sin;
 using std::cout;
 using std::endl;
@@ -12,24 +12,24 @@ void main()
 
 #ifdef WRITE_TO_FILE
 	cout << "Hello Files" << endl;
-	// 1) создаем поток
+	// 1) СЃРѕР·РґР°РµРј РїРѕС‚РѕРє
 	std::ofstream fout;
-	// 2) открываем поток:
+	// 2) РѕС‚РєСЂС‹РІР°РµРј РїРѕС‚РѕРє:
 	fout.open("File.txt", std::ios_base::app);
-	// 3) Пишем в поток:
+	// 3) РџРёС€РµРј РІ РїРѕС‚РѕРє:
 	fout << "Hello Files" << endl;
-	fout << "Ну привет" << endl;
-	// 4) Закрываем поток:
+	fout << "РќСѓ РїСЂРёРІРµС‚" << endl;
+	// 4) Р—Р°РєСЂС‹РІР°РµРј РїРѕС‚РѕРє:
 	fout.close();
 	system("start notepad File.txt");
 #endif // WRITE_TO_FILE
 
 #ifdef READ_FROM_FILE
-	//1) создаем поток
+	//1) СЃРѕР·РґР°РµРј РїРѕС‚РѕРє
 	std::ifstream fin;
-	// 2) открываем поток
+	// 2) РѕС‚РєСЂС‹РІР°РµРј РїРѕС‚РѕРє
 	fin.open("File.txt");
-	// 3) Проверяем, открылся ли поток
+	// 3) РџСЂРѕРІРµСЂСЏРµРј, РѕС‚РєСЂС‹Р»СЃСЏ Р»Рё РїРѕС‚РѕРє
 	if (fin.is_open())
 	{
 		//TODO: read file
@@ -41,7 +41,7 @@ void main()
 			fin.getline(sz_buffer, SIZE);
 			cout << sz_buffer << endl;
 		}
-		// Закрываем поток
+		// Р—Р°РєСЂС‹РІР°РµРј РїРѕС‚РѕРє
 		fin.close();
 	}
 	else
