@@ -95,7 +95,7 @@ std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
 	return ofs;
 }std::ifstream& operator>>(std::ifstream& ifs, Human& obj)
 {
-	//obj.scan(ifs);
+	obj.scan(ifs);
 	return ifs;
 }
 
@@ -236,7 +236,7 @@ public:
 		Human::print(os);
 		return os << speciality << " " << experience;
 	}
-	std::ofstream& print(std::ofstream ofs)const
+	std::ofstream& print(std::ofstream& ofs)const
 	{
 		Human::print(ofs);
 		ofs.width(SPECIALITY_WIDTH);
@@ -329,6 +329,7 @@ Human* HumanFactory(const std::string& type)
 	if (type.find("Teacher") != std::string::npos) return new Teacher("", "", 0, "", 0);
 	if (type.find("Student") != std::string::npos) return new Student("", "", 0, "", "", 0, 0);
 	if (type.find("Graduate") != std::string::npos) return new Graduate("", "", 0, "", "", 0, 0, "");
+	return new Human("", "",0);
 }
 
 Human** load(const std::string& filename, int& n)
@@ -345,11 +346,11 @@ Human** load(const std::string& filename, int& n)
 		}
 		// 2) выделяем память под массив
 		group = new Human * [--n] {};
-		//3) Возвращаемся в начало файла
+		//3) Возвращаемся в начало файла 
 		fin.clear();
 		fin.seekg(0);
 		// 4) Создаем и читаем объекты
-		for (int i = 0; i<n; i++)
+		for (int i = 0; i < n; i++)
 		{
 			std::string type;
 			std::getline(fin, type, ':');
@@ -368,6 +369,7 @@ Human** load(const std::string& filename, int& n)
 
 //#define INHERITANCE
 //#define STORE_TO_FILE
+#define READ_FROM_FILE
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -409,9 +411,12 @@ void main()
 	save(group, sizeof(group) / sizeof(group[0]), "group.txt");
 #endif // STORE_TO_FILE
 
+#ifdef READ_FROM_FILE
 	int n = 0;
 	Human** group = load("group.txt", n);
 	print(group, n);
+#endif // READ_FROM_FILE
+
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
