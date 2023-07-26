@@ -329,7 +329,8 @@ Human* HumanFactory(const std::string& type)
 	if (type.find("Teacher") != std::string::npos) return new Teacher("", "", 0, "", 0);
 	if (type.find("Student") != std::string::npos) return new Student("", "", 0, "", "", 0, 0);
 	if (type.find("Graduate") != std::string::npos) return new Graduate("", "", 0, "", "", 0, 0, "");
-	return new Human("", "",0);
+	//return new Human("", "",0);
+	return nullptr;
 }
 
 Human** load(const std::string& filename, int& n)
@@ -356,7 +357,7 @@ Human** load(const std::string& filename, int& n)
 			std::getline(fin, type, ':');
 			fin.ignore();
 			group[i] = HumanFactory(type);
-			fin >> *group[i];
+			//if(group[i])fin >> *group[i];
 		}
 		fin.close();
 	}
