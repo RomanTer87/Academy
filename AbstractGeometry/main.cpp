@@ -1,4 +1,5 @@
 #include<iostream>
+#include<Windows.h>
 using namespace std;
 
 enum Color
@@ -11,6 +12,7 @@ enum Color
 
 class Shape
 {
+protected:
 	Color color;
 public:
 	Shape(Color color) :color(color) {};
@@ -52,6 +54,8 @@ public:
 	}
 	void draw()const override
 	{
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, color);
 		for (int i = 0; i < side; i++)
 		{
 			for (int j = 0; j < side; j++)
@@ -60,6 +64,7 @@ public:
 			}
 			cout << endl;
 		}
+		SetConsoleTextAttribute(hConsole, Color::console_default);
 	}
 };
 
@@ -68,5 +73,9 @@ void main()
 	setlocale(LC_ALL, "");
 	//Shape shape(Color::console_blue);
 	Square square(5, Color::console_red);
+	cout << "Длина стороны квадрата: " << square.get_side() << endl;
+	cout << "Площадь квадрата: " << square.get_area() << endl;
+	cout << "Периметр квадрата: " << square.get_perimeter() << endl;
+	square.draw();
 
 }
