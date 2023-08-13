@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<Windows.h>
 using namespace std;
 
@@ -76,8 +76,8 @@ namespace Geometry
 		virtual void draw()const = 0;
 		virtual void info()const
 		{
-			cout << "Ïëîùàäü ôèãóðû: " << get_area() << endl;
-			cout << "Ïåðèìåòð ôèãóðû: " << get_perimeter() << endl;
+			cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ Ñ„Ð¸Ð³ÑƒÑ€Ñ‹: " << get_area() << endl;
+			cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ Ñ„Ð¸Ð³ÑƒÑ€Ñ‹: " << get_perimeter() << endl;
 			draw();
 		}
 	};
@@ -129,7 +129,7 @@ namespace Geometry
 		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
-			cout << "Äëèíà ñòîðîíû: " << side << endl;
+			cout << "Ð”Ð»Ð¸Ð½Ð° ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñ‹: " << side << endl;
 			Shape::info();
 		}
 	};*/
@@ -177,27 +177,27 @@ namespace Geometry
 		}
 		void draw()const
 		{
-			// 1) Ïîëó÷àåì îêíî êîíñîëè:
-			HWND hwnd = GetConsoleWindow();	// Ôóíêöèÿ GetConsoleWindow() âîçâðàùàåò hwnd îêíà êîíñîëè èç òåêóùåãî ïîòîêà (êîìàíä).
-			// HWND - Handler to Window (Îáðàáîò÷èê îêíà).
-			// Ê ïåðåìåííîé ìîæíî îáðàòèòüñÿ ïî èìåíè, ê îêíó ìîæíî îáðàòèòüñÿ ÷åðåç hwnd ýòîãî îêíà
+			// 1) ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¾ÐºÐ½Ð¾ ÐºÐ¾Ð½ÑÐ¾Ð»Ð¸:
+			HWND hwnd = GetConsoleWindow();	// Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ GetConsoleWindow() Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ hwnd Ð¾ÐºÐ½Ð° ÐºÐ¾Ð½ÑÐ¾Ð»Ð¸ Ð¸Ð· Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ð¿Ð¾Ñ‚Ð¾ÐºÐ° (ÐºÐ¾Ð¼Ð°Ð½Ð´).
+			// HWND - Handler to Window (ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð¾ÐºÐ½Ð°).
+			// Ðš Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ð±Ñ€Ð°Ñ‚Ð¸Ñ‚ÑŒÑÑ Ð¿Ð¾ Ð¸Ð¼ÐµÐ½Ð¸, Ðº Ð¾ÐºÐ½Ñƒ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ð±Ñ€Ð°Ñ‚Ð¸Ñ‚ÑŒÑÑ Ñ‡ÐµÑ€ÐµÐ· hwnd ÑÑ‚Ð¾Ð³Ð¾ Ð¾ÐºÐ½Ð°
 			
-			// 2) Ñîçäàåì êîíòåêñò óñòðîéñòâà:
-			HDC hdc = GetDC(hwnd);	// DC - Device Context (Êîíòåêñ óñòðîéñòâà)
-			// Êîíòåêñò óñòðîéñòâà åñòü àáñîëþòíî ó êàæäîãî îêíà.
-			// Ðèñîâàòü ìîæíî òîëüêî íà êîíòåêñòå óñòðîéñòâà
-			// Ôóíêöèÿ GetDC(hwnd) âîçâðàùàåò êîíòåêñò óñòðîéñòâà çàäàííîãî îêíà
+			// 2) Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°:
+			HDC hdc = GetDC(hwnd);	// DC - Device Context (ÐšÐ¾Ð½Ñ‚ÐµÐºÑ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°)
+			// ÐšÐ¾Ð½Ñ‚ÐµÐºÑÑ‚ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð° ÐµÑÑ‚ÑŒ Ð°Ð±ÑÐ¾Ð»ÑŽÑ‚Ð½Ð¾ Ñƒ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð¾ÐºÐ½Ð°.
+			// Ð Ð¸ÑÐ¾Ð²Ð°Ñ‚ÑŒ Ð¼Ð¾Ð¶Ð½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð° ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚Ðµ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°
+			// Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ GetDC(hwnd) Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð° Ð·Ð°Ð´Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¾ÐºÐ½Ð°
 			
-			// 3) Ñîçäàåì êèñòü è êàðàíäàø:
-			HPEN hPen = CreatePen(PS_SOLID, 5, color);	// êàðàíäàø ðèñóåò êîíòóð ôèãóðû
-			HBRUSH hBrush = CreateSolidBrush(color); // êèñòü çàëèâàåò öâåòîì ôèãóðó
+			// 3) Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ ÐºÐ¸ÑÑ‚ÑŒ Ð¸ ÐºÐ°Ñ€Ð°Ð½Ð´Ð°Ñˆ:
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);	// ÐºÐ°Ñ€Ð°Ð½Ð´Ð°Ñˆ Ñ€Ð¸ÑÑƒÐµÑ‚ ÐºÐ¾Ð½Ñ‚ÑƒÑ€ Ñ„Ð¸Ð³ÑƒÑ€Ñ‹
+			HBRUSH hBrush = CreateSolidBrush(color); // ÐºÐ¸ÑÑ‚ÑŒ Ð·Ð°Ð»Ð¸Ð²Ð°ÐµÑ‚ Ñ†Ð²ÐµÑ‚Ð¾Ð¼ Ñ„Ð¸Ð³ÑƒÑ€Ñƒ
 
-			// 4) Âûáèðàåì ÷åì è íà ÷åì áóäåì ðèñîâàòü:
+			// 4) Ð’Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ñ‡ÐµÐ¼ Ð¸ Ð½Ð° Ñ‡ÐµÐ¼ Ð±ÑƒÐ´ÐµÐ¼ Ñ€Ð¸ÑÐ¾Ð²Ð°Ñ‚ÑŒ:
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
 
 
-			// 5) Ðèñóåì ôèãóðó:
+			// 5) Ð Ð¸ÑÑƒÐµÐ¼ Ñ„Ð¸Ð³ÑƒÑ€Ñƒ:
 			::Rectangle(hdc, start_x, start_y, start_x + side_a, start_y+side_b);
 
 			DeleteObject(hPen);
@@ -207,8 +207,8 @@ namespace Geometry
 		void info()const override
 		{
 			cout << typeid(*this).name() << endl;
-			cout << "Ñòîðîíà 'a'" << side_a << endl;
-			cout << "Ñòîðîíà 'b'" << side_b << endl;
+			cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° 'a'" << side_a << endl;
+			cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° 'b'" << side_b << endl;
 			Shape::info();
 		}
 	};
